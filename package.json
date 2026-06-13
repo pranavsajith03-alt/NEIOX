@@ -11,6 +11,7 @@
   "dependencies": {
     "@supabase/ssr": "^0.10.3",
     "@supabase/supabase-js": "^2.108.1",
+    "@tailwindcss/typography": "^0.5.20",
     "@upstash/ratelimit": "^2.0.8",
     "@upstash/redis": "^1.38.0",
     "framer-motion": "^12.38.0",
@@ -18,6 +19,8 @@
     "next": "^14.2.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1",
     "server-only": "^0.0.1",
     "zod": "^3.25.76"
   },

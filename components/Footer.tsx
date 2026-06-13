@@ -271,6 +271,10 @@ export default function Footer() {
             <p style={{ fontFamily: 'var(--font-body)', fontSize: '13px', color: 'rgba(234,241,255,0.4)', margin: 0 }}>
               © {year} NEIOX Eco Cycle Private Limited. All rights reserved.
             </p>
+            <a href="/privacy" className="transition-colors hover:text-white"
+               style={{ fontFamily: 'var(--font-body)', fontSize: '13px', color: 'rgba(234,241,255,0.4)' }}>
+              Privacy Policy
+            </a>
             <a href="#hero" aria-label="Back to top"
                className="flex items-center justify-center transition-colors hover:text-white"
                style={{

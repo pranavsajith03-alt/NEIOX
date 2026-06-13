@@ -12,10 +12,10 @@ const isDev = process.env.NODE_ENV !== 'production';
      app/layout.tsx (Google Fonts, fonts.cdnfonts.com for Cal Sans).
    - img-src allows the Unsplash images used across the marketing
      components and Supabase Storage (avatars / uploaded files).
-   - connect-src allows the Supabase project (REST + Realtime). The WAQI
-     air-quality API is called server-side only, via app/api/aqi/route.ts
-     (components/AQIWidget.tsx fetches that same-origin route), so
-     api.waqi.info does not need a browser connect-src entry.
+   - connect-src allows the Supabase project (REST + Realtime). WAQI
+     air-quality data is fetched server-side inside the async Server
+     Component components/AQIWidget.tsx, so api.waqi.info does not need
+     a browser connect-src entry.
 ─────────────────────────────────────────────────────────────────────────*/
 const CSP_DIRECTIVES = [
   "default-src 'self'",

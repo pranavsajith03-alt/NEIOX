@@ -1,5 +1,6 @@
-'use client';
+import { Suspense } from 'react';
 import PollutionHero from '@/components/PollutionHero';
+import AQIWidget from '@/components/AQIWidget';
 import TrustBar from '../components/TrustBar';
 import WhatWeDo from '../components/WhatWeDo';
 import InnovationSpotlight from '../components/InnovationSpotlight';
@@ -12,7 +13,13 @@ import Footer from '../components/Footer';
 export default function HomePage() {
   return (
     <div style={{ background: '#ffffff', minHeight: '100vh', color: '#000000' }}>
-      <PollutionHero />
+      <PollutionHero
+        aqiWidget={
+          <Suspense fallback={null}>
+            <AQIWidget />
+          </Suspense>
+        }
+      />
       <TrustBar />
       <WhatWeDo />
       <IndustriesSection />

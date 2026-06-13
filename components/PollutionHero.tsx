@@ -21,10 +21,9 @@
  *   in app/page.tsx. It self-contains all scroll logic.
  */
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, type ReactNode } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import AQIWidget from './AQIWidget';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -39,7 +38,7 @@ gsap.registerPlugin(ScrollTrigger);
  const IMG_POLLUTED = '/images/ship-polluted.png';
  const IMG_CLEAN  = '/images/ship-clean.png';
 
-export default function PollutionHero() {
+export default function PollutionHero({ aqiWidget }: { aqiWidget?: ReactNode }) {
   const wrapperRef  = useRef<HTMLDivElement>(null);
   const cleanRef    = useRef<HTMLDivElement>(null);
   const lineRef     = useRef<HTMLDivElement>(null);
@@ -451,7 +450,7 @@ export default function PollutionHero() {
                width:          '200px',
              }}
              className="hidden lg:block">
-          <AQIWidget />
+          {aqiWidget}
         </div>
 
       </div>
