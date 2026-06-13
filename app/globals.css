@@ -1,0 +1,748 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+ 
+/* ══════════════════════════════════════════════════════════════════════
+   CSS CUSTOM PROPERTIES — Stitch DESIGN.md tokens
+   These mirror tailwind.config.ts so non-Tailwind CSS can reference them
+══════════════════════════════════════════════════════════════════════ */
+@layer base {
+  :root {
+    color-scheme: light;
+ 
+    /* ── Stitch surface tokens ───────────────────────────────────── */
+    --n-surface:            #f8f9ff;
+    --n-surface-dim:        #cbdbf5;
+    --n-surface-bright:     #f8f9ff;
+    --n-surface-lowest:     #ffffff;
+    --n-surface-low:        #eff4ff;
+    --n-surface-mid:        #e5eeff;
+    --n-surface-high:       #dce9ff;
+    --n-surface-highest:    #d3e4fe;
+    --n-surface-variant:    #d3e4fe;
+ 
+    /* ── Stitch text tokens ──────────────────────────────────────── */
+    --n-on-surface:         #0b1c30;
+    --n-on-surface-variant: #1a2018;   /* was #42493d — darkened */
+    --n-inverse-surface:    #213145;
+    --n-inverse-on-surface: #eaf1ff;
+ 
+    /* ── Stitch outline tokens ───────────────────────────────────── */
+    --n-outline:            #3d4438;   /* was #73796c — darkened */
+    --n-outline-variant:    #c2c9ba;
+ 
+    /* ── Stitch primary green ────────────────────────────────────── */
+    --n-primary:            #3f692c;
+    --n-primary-container:  #76a35f;
+    --n-primary-fixed:      #bff0a4;
+    --n-primary-fixed-dim:  #a4d48a;
+    --n-inverse-primary:    #a4d48a;
+ 
+    /* ── Stitch dark section ─────────────────────────────────────── */
+    --n-dark:               #213145;
+    --n-dark-2:             #1a2838;
+ 
+    /* ── Typography ──────────────────────────────────────────────── */
+    --font-display:         'Hanken Grotesk', system-ui, sans-serif;
+    --font-body:            'Inter', system-ui, sans-serif;
+    --font-mono:            'JetBrains Mono', monospace;
+ 
+    /* ── Spacing — Stitch spec ───────────────────────────────────── */
+    --spacing-unit:         8px;
+    --spacing-gutter:       32px;
+    --spacing-section:      120px;
+ 
+    /* ── Transitions ─────────────────────────────────────────────── */
+    --ease-expo:            cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-smooth:          cubic-bezier(0.4, 0, 0.2, 1);
+    --t-fast:               150ms var(--ease-smooth);
+    --t-base:               300ms var(--ease-smooth);
+    --t-slow:               600ms var(--ease-expo);
+  }
+ 
+  /* ── Document ────────────────────────────────────────────────────── */
+  html {
+    scroll-behavior: smooth;
+    scrollbar-gutter: stable;
+  }
+ 
+  /* ── Body — light site default ───────────────────────────────────── */
+  body {
+    background-color:        var(--n-surface);
+    color:                   var(--n-on-surface);
+    font-family:             var(--font-body);
+    font-size:               18px;           /* was 16px */
+    line-height:             1.7;            /* was 1.6  */
+    -webkit-font-smoothing:  antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering:          optimizeLegibility;
+  }
+ 
+  /* ── Paragraph text — bigger + darker across the whole site ─────── */
+  p {
+    font-size:   1.0625rem;
+    line-height: 1.72;
+    color:       var(--n-on-surface-variant); /* #2a3128 */
+  }
+ 
+  /* ── Selection ───────────────────────────────────────────────────── */
+  ::selection {
+    background-color: var(--n-primary);
+    color:            #ffffff;
+  }
+ 
+  /* ── Scrollbar ───────────────────────────────────────────────────── */
+  ::-webkit-scrollbar       { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { background: var(--n-surface); }
+  ::-webkit-scrollbar-thumb {
+    background:    var(--n-outline-variant);
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover { background: var(--n-outline); }
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--n-outline-variant) var(--n-surface);
+  }
+ 
+  /* ── Headings — Hanken Grotesk, sentence case ────────────────────── */
+  h1, h2, h3, h4, h5, h6 {
+    font-family:    var(--font-display);
+    color:          var(--n-on-surface);
+    letter-spacing: -0.02em;
+    line-height:    1.1;
+    font-weight:    500;
+  }
+ 
+  /* ── Links ───────────────────────────────────────────────────────── */
+  a {
+    color:      var(--n-primary);
+    transition: color var(--t-fast);
+  }
+  a:hover { color: var(--n-primary-container); }
+ 
+  /* ── Focus ───────────────────────────────────────────────────────── */
+  :focus-visible {
+    outline:        2px solid var(--n-primary);
+    outline-offset: 3px;
+    border-radius:  4px;
+  }
+ 
+  /* ── Form elements — light theme ─────────────────────────────────── */
+  input, textarea, select {
+    background-color: var(--n-surface-lowest);
+    color:            var(--n-on-surface);
+    border-color:     var(--n-outline-variant);
+    caret-color:      var(--n-primary);
+    font-family:      var(--font-body);
+  }
+ 
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus {
+    -webkit-text-fill-color: var(--n-on-surface);
+    -webkit-box-shadow: 0 0 0px 1000px var(--n-surface-lowest) inset;
+    transition: background-color 5000s ease-in-out 0s;
+  }
+ 
+  /* ── Monospace elements ──────────────────────────────────────────── */
+  code, kbd, pre, .label-caps {
+    font-family: var(--font-mono);
+  }
+}
+ 
+/* ══════════════════════════════════════════════════════════════════════
+   COMPONENT LAYER
+══════════════════════════════════════════════════════════════════════ */
+@layer components {
+ 
+  /* ─────────────────────────────────────────────────────────────────
+     SITE LAYOUT UTILITIES
+  ───────────────────────────────────────────────────────────────── */
+ 
+  /* Max-width 1280px, desktop margin 80px — Stitch spec */
+  .site-container {
+    width:         100%;
+    max-width:     1280px;
+    margin-left:   auto;
+    margin-right:  auto;
+    padding-left:  clamp(1.5rem, 5vw, 5rem);
+    padding-right: clamp(1.5rem, 5vw, 5rem);
+  }
+ 
+  /* Section gap 120px — Stitch spec */
+  .site-section {
+    padding-top:    clamp(4rem, 8vw, 7.5rem);
+    padding-bottom: clamp(4rem, 8vw, 7.5rem);
+  }
+ 
+  /* ─────────────────────────────────────────────────────────────────
+     TYPOGRAPHY UTILITIES — Stitch DESIGN.md scale
+  ───────────────────────────────────────────────────────────────── */
+ 
+  /* display-hero: Hanken Grotesk 72px/600/−0.02em */
+  .text-display {
+    font-family:    var(--font-display);
+    font-size:      clamp(2.5rem, 6vw, 4.5rem);
+    font-weight:    600;
+    line-height:    1.1;
+    letter-spacing: -0.02em;
+    color:          var(--n-on-surface);
+  }
+ 
+  /* headline-lg: Hanken Grotesk 40px/500/−0.01em */
+  .text-headline {
+    font-family:    var(--font-display);
+    font-size:      clamp(1.75rem, 3vw, 2.5rem);
+    font-weight:    500;
+    line-height:    1.2;
+    letter-spacing: -0.01em;
+    color:          var(--n-on-surface);
+  }
+ 
+  /* label-caps: Hanken Grotesk, semibold uppercase section labels */
+  .text-label {
+    font-family:    var(--font-display);
+    font-size:      clamp(0.95rem, 1.5vw, 1.2rem);
+    font-weight:    600;
+    line-height:    1.2;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color:          var(--n-primary);
+  }
+ 
+  /* stat-value: Hanken Grotesk 48px/300 */
+  .text-stat {
+    font-family:          var(--font-display);
+    font-size:            clamp(2rem, 4vw, 3rem);
+    font-weight:          300;
+    line-height:          1;
+    color:                var(--n-primary-fixed-dim);
+    font-variant-numeric: tabular-nums;
+  }
+ 
+  /* ─────────────────────────────────────────────────────────────────
+     SITE BUTTONS
+  ───────────────────────────────────────────────────────────────── */
+ 
+  /* Solid Industrial — primary green */
+  .btn-site-primary {
+    display:         inline-flex;
+    align-items:     center;
+    justify-content: center;
+    gap:             0.5rem;
+    padding:         0.75rem 1.5rem;
+    border-radius:   9999px;
+    background:      var(--n-primary);
+    color:           #ffffff;
+    font-family:     var(--font-body);
+    font-size:       0.875rem;
+    font-weight:     500;
+    text-decoration: none;
+    border:          none;
+    cursor:          pointer;
+    position:        relative;
+    overflow:        hidden;
+    transition:      background var(--t-base),
+                     transform var(--t-fast),
+                     box-shadow var(--t-base);
+  }
+  .btn-site-primary::after {
+    content:    '';
+    position:   absolute;
+    inset:      0;
+    background: linear-gradient(105deg, transparent 35%,
+                rgba(255,255,255,0.2) 50%, transparent 65%);
+    transform:  translateX(-120%);
+    transition: transform 0.55s var(--ease-expo);
+  }
+  .btn-site-primary:hover {
+    background: var(--n-primary-container);
+    transform:  translateY(-1px);
+    box-shadow: 0 4px 20px rgba(63,105,44,0.25);
+    color:      #ffffff;
+  }
+  .btn-site-primary:hover::after { transform: translateX(120%); }
+  .btn-site-primary:active       { transform: translateY(0); }
+ 
+  /* Ghost — border + text */
+  .btn-site-ghost {
+    display:         inline-flex;
+    align-items:     center;
+    justify-content: center;
+    gap:             0.5rem;
+    padding:         0.7rem 1.4rem;
+    border-radius:   9999px;
+    background:      transparent;
+    color:           var(--n-on-surface);
+    font-family:     var(--font-body);
+    font-size:       0.875rem;
+    font-weight:     500;
+    border:          1.5px solid var(--n-outline-variant);
+    cursor:          pointer;
+    text-decoration: none;
+    transition:      all var(--t-base);
+  }
+  .btn-site-ghost:hover {
+    border-color: var(--n-primary);
+    color:        var(--n-primary);
+    background:   rgba(63,105,44,0.05);
+    transform:    translateY(-1px);
+  }
+ 
+  /* Dark pill — for sections on dark bg */
+  .btn-site-dark {
+    display:         inline-flex;
+    align-items:     center;
+    justify-content: center;
+    gap:             0.5rem;
+    padding:         0.7rem 1.4rem;
+    border-radius:   9999px;
+    background:      rgba(255,255,255,0.08);
+    color:           #ffffff;
+    font-family:     var(--font-body);
+    font-size:       0.875rem;
+    font-weight:     500;
+    border:          1px solid rgba(255,255,255,0.18);
+    cursor:          pointer;
+    text-decoration: none;
+    transition:      all var(--t-base);
+    backdrop-filter: blur(8px);
+  }
+  .btn-site-dark:hover {
+    background: rgba(255,255,255,0.14);
+    transform:  translateY(-1px);
+    color:      #ffffff;
+  }
+ 
+  /* Text link with arrow — hover slides arrow right */
+  .link-arrow {
+    display:         inline-flex;
+    align-items:     center;
+    gap:             0.4rem;
+    font-family:     var(--font-body);
+    font-size:       0.875rem;
+    font-weight:     500;
+    color:           var(--n-primary);
+    text-decoration: none;
+    transition:      gap var(--t-base), color var(--t-fast);
+  }
+  .link-arrow:hover {
+    gap:   0.65rem;
+    color: var(--n-primary-container);
+  }
+  .link-arrow svg {
+    transition:  transform var(--t-base);
+    flex-shrink: 0;
+  }
+  .link-arrow:hover svg { transform: translateX(3px); }
+ 
+  /* Light version of link-arrow — for dark sections */
+  .link-arrow-light {
+    display:         inline-flex;
+    align-items:     center;
+    gap:             0.4rem;
+    font-family:     var(--font-body);
+    font-size:       0.875rem;
+    font-weight:     500;
+    color:           rgba(255,255,255,0.75);
+    text-decoration: none;
+    transition:      gap var(--t-base), color var(--t-fast);
+  }
+  .link-arrow-light:hover {
+    gap:   0.65rem;
+    color: #ffffff;
+  }
+  .link-arrow-light svg { transition: transform var(--t-base); }
+  .link-arrow-light:hover svg { transform: translateX(3px); }
+ 
+  /* ─────────────────────────────────────────────────────────────────
+     GLASS — Stitch spec: backdrop-blur 12px, ambient shadow 5–8%
+  ───────────────────────────────────────────────────────────────── */
+ 
+  /* Light glass — white/surface tinted, for cards over imagery */
+  .glass {
+    background:              rgba(248, 249, 255, 0.78);
+    backdrop-filter:         blur(12px) saturate(160%);
+    -webkit-backdrop-filter: blur(12px) saturate(160%);
+    border:                  1px solid rgba(255, 255, 255, 0.65);
+    box-shadow:
+      0 4px 24px rgba(11, 28, 48, 0.06),
+      inset 0 1px 0 rgba(255, 255, 255, 0.75);
+    transition: all 500ms var(--ease-smooth);
+  }
+  .glass:hover {
+    background: rgba(255, 255, 255, 0.88);
+    box-shadow:
+      0 8px 40px rgba(11, 28, 48, 0.09),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    transform: translateY(-2px);
+  }
+ 
+  /* Dark glass — for overlays on photography (Innovation section) */
+  .glass-dark {
+    background:              rgba(33, 49, 69, 0.55);
+    backdrop-filter:         blur(12px) saturate(140%);
+    -webkit-backdrop-filter: blur(12px) saturate(140%);
+    border:                  1px solid rgba(255, 255, 255, 0.08);
+    box-shadow:
+      0 4px 32px rgba(0, 0, 0, 0.28),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    transition: all 500ms var(--ease-smooth);
+  }
+  .glass-dark:hover {
+    background:   rgba(33, 49, 69, 0.72);
+    border-color: rgba(164, 212, 138, 0.20);
+    box-shadow:
+      0 8px 48px rgba(0, 0, 0, 0.38),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    transform: translateY(-2px);
+  }
+ 
+  /* AQI float widget glass — Stitch ambient shadow spec */
+  .glass-widget {
+    background:              rgba(255, 255, 255, 0.94);
+    backdrop-filter:         blur(16px) saturate(200%);
+    -webkit-backdrop-filter: blur(16px) saturate(200%);
+    border:                  1px solid rgba(255, 255, 255, 0.8);
+    box-shadow:
+      0 6px 24px rgba(11, 28, 48, 0.06),
+      0 2px 6px  rgba(11, 28, 48, 0.04),
+      inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  }
+ 
+  /* Navbar glass — light mode scrolled */
+  .glass-nav {
+    background:              rgba(248, 249, 255, 0.82);
+    backdrop-filter:         blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom:           1px solid rgba(194, 201, 186, 0.5);
+    box-shadow:              0 1px 16px rgba(11, 28, 48, 0.05);
+  }
+ 
+  /* ─────────────────────────────────────────────────────────────────
+     SITE CARD — tonal separation over shadows (Stitch spec)
+  ───────────────────────────────────────────────────────────────── */
+  .site-card {
+    background:    var(--n-surface-lowest);
+    border:        1px solid var(--n-outline-variant);
+    border-radius: 0.5rem;
+    box-shadow:    0 1px 3px rgba(11,28,48,0.05);
+    transition:    all var(--t-base);
+    position:      relative;
+    overflow:      hidden;
+  }
+  .site-card::after {
+    content:        '';
+    position:       absolute;
+    inset:          0;
+    background:     linear-gradient(135deg,
+      transparent 0%, rgba(255,255,255,0.45) 50%, transparent 100%);
+    transform:      translateX(-100%) translateY(-100%);
+    transition:     transform 0.55s var(--ease-expo);
+    pointer-events: none;
+  }
+  .site-card:hover {
+    border-color: rgba(63,105,44,0.18);
+    box-shadow:   0 12px 36px rgba(11,28,48,0.12);
+    transform:    translateY(-3px) scale(1.012);
+  }
+  .site-card:hover::after {
+    transform: translateX(100%) translateY(100%);
+  }
+
+  /* ─────────────────────────────────────────────────────────────────
+     HOVER-LIFT — generic premium card hover: micro-scale + deeper shadow
+  ───────────────────────────────────────────────────────────────── */
+  .hover-lift {
+    transition:  transform var(--t-base), box-shadow var(--t-base);
+    will-change: transform;
+  }
+  .hover-lift:hover {
+    transform:  translateY(-4px) scale(1.015);
+    box-shadow: 0 16px 48px rgba(11,28,48,0.14);
+  }
+
+  /* ─────────────────────────────────────────────────────────────────
+     FOCUS-GLOW — animated ring for inputs, selectors, slider thumbs
+  ───────────────────────────────────────────────────────────────── */
+  .focus-glow {
+    transition: box-shadow var(--t-base), border-color var(--t-base);
+  }
+  .focus-glow:focus,
+  .focus-glow:focus-visible {
+    outline:      none;
+    border-color: var(--n-primary);
+    box-shadow:
+      0 0 0 4px rgba(164,212,138,0.35),
+      0 0 24px rgba(164,212,138,0.20);
+  }
+ 
+  /* Borderless impact card — Stitch spec */
+  .impact-card {
+    background:    transparent;
+    border-bottom: 1px solid rgba(255,255,255,0.10);
+    padding:       1.25rem 0;
+    transition:    all var(--t-base);
+  }
+ 
+  /* ─────────────────────────────────────────────────────────────────
+     DASHBOARD COMPONENTS — unchanged
+  ───────────────────────────────────────────────────────────────── */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2
+           px-6 py-3 rounded-xl bg-mint-500 text-forest-950
+           font-semibold text-sm tracking-wide shadow-mint-glow-sm
+           transition-all duration-300
+           hover:bg-mint-400 hover:shadow-mint-glow hover:-translate-y-0.5
+           active:translate-y-0 active:bg-mint-600
+           disabled:opacity-40 disabled:cursor-not-allowed;
+  }
+ 
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2
+           px-6 py-3 rounded-xl bg-transparent text-sage-200
+           font-semibold text-sm tracking-wide border border-sage-600
+           transition-all duration-300
+           hover:bg-forest-800 hover:border-sage-400 hover:text-sage-100
+           active:bg-forest-700
+           disabled:opacity-40 disabled:cursor-not-allowed;
+  }
+ 
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2
+           px-4 py-2 rounded-lg bg-transparent text-sage-300
+           font-medium text-sm transition-all duration-300
+           hover:bg-forest-800 hover:text-sage-100 active:bg-forest-700;
+  }
+ 
+  .card {
+    @apply bg-forest-900 border border-sage-600/30
+           rounded-2xl transition-all duration-300;
+    box-shadow: 0 1px 3px rgba(11,28,48,0.05);
+  }
+ 
+  .card-hover {
+    @apply card hover:border-sage-500/50 hover:-translate-y-1;
+    box-shadow: 0 8px 32px rgba(11,28,48,0.10);
+  }
+ 
+  .card-terminal {
+    @apply bg-forest-950 border border-sage-600/20
+           rounded-xl font-mono text-sm;
+    box-shadow: inset 0 2px 8px rgba(11,28,48,0.06);
+  }
+ 
+  .field {
+    @apply w-full px-4 py-3 rounded-xl bg-forest-800 text-sage-200
+           border border-sage-600/50 placeholder:text-sage-500
+           transition-all duration-300
+           focus:outline-none focus:border-mint-500
+           focus:ring-1 focus:ring-mint-500/50 hover:border-sage-500;
+  }
+ 
+  .field-label { @apply block text-sm font-medium text-sage-300 mb-1.5; }
+  .field-error { @apply text-xs text-status-error mt-1.5 flex items-center gap-1; }
+ 
+  .badge {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1
+           rounded-full text-xs font-medium;
+  }
+  .badge-success { @apply badge bg-status-success/15 text-status-success border border-status-success/25; }
+  .badge-warning { @apply badge bg-status-warning/15 text-status-warning border border-status-warning/25; }
+  .badge-error   { @apply badge bg-status-error/15   text-status-error   border border-status-error/25;   }
+  .badge-pending { @apply badge bg-status-pending/15 text-status-pending border border-status-pending/25; }
+  .badge-idle    { @apply badge bg-status-idle/15    text-status-idle    border border-status-idle/25;    }
+ 
+  .section-container { @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8; }
+  .section-padding   { @apply py-20 lg:py-32; }
+  .divider           { @apply border-t border-sage-600/20 my-8; }
+ 
+  .nav-link {
+    @apply text-sage-300 text-sm font-medium transition-all duration-300
+           hover:text-sage-100 relative
+           after:absolute after:bottom-0 after:left-0
+           after:h-px after:w-0 after:bg-mint-500
+           after:transition-all after:duration-300 hover:after:w-full;
+  }
+ 
+  .sidebar-item {
+    @apply flex items-center gap-3 px-4 py-2.5 rounded-xl
+           text-sage-300 text-sm font-medium transition-all duration-300
+           hover:bg-forest-800 hover:text-sage-100 cursor-pointer;
+  }
+  .sidebar-item-active {
+    @apply sidebar-item bg-forest-800 text-sage-100 border-l-2 border-mint-500;
+  }
+ 
+  .page-header { @apply border-b border-sage-600/20 pb-6 mb-8; }
+ 
+  .skeleton {
+    @apply bg-forest-800 rounded-lg;
+    background-image: linear-gradient(90deg,
+      transparent 0%, rgba(110,231,183,0.04) 50%, transparent 100%);
+    background-size: 200% 100%;
+    animation: shimmer-move 2.5s linear infinite;
+  }
+}
+ 
+/* ══════════════════════════════════════════════════════════════════════
+   UTILITIES
+══════════════════════════════════════════════════════════════════════ */
+@layer utilities {
+ 
+  /* ── Text gradient — green accent for headlines ──────────────────── */
+  .text-green-accent {
+    background:              linear-gradient(135deg, #3f692c 0%, #76a35f 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip:         text;
+  }
+ 
+  /* Dashboard only */
+  .text-gradient {
+    background:              linear-gradient(135deg, #3f692c 0%, #5a8a42 50%, #76a35f 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip:         text;
+  }
+ 
+  /* ── Shimmer sweep — light sheen across element on hover ─────────── */
+  .sheen {
+    position: relative;
+    overflow: hidden;
+  }
+  .sheen::before {
+    content:        '';
+    position:       absolute;
+    top:            0; left: -100%;
+    width:          60%; height: 100%;
+    background:     linear-gradient(105deg,
+      transparent 20%, rgba(255,255,255,0.28) 50%, transparent 80%);
+    transform:      skewX(-15deg);
+    transition:     left 0.55s var(--ease-expo);
+    pointer-events: none;
+  }
+  .sheen:hover::before { left: 140%; }
+ 
+  /* ── Float — AQI widget gentle bob ──────────────────────────────── */
+  .float {
+    animation: float 5s ease-in-out infinite;
+  }
+ 
+  /* ── Fade-in on mount ────────────────────────────────────────────── */
+  .animate-in           { animation: slide-up 0.8s var(--ease-expo) both; }
+  .animate-in-delay-1   { animation: slide-up 0.8s var(--ease-expo) 0.1s  both; }
+  .animate-in-delay-2   { animation: slide-up 0.8s var(--ease-expo) 0.2s  both; }
+  .animate-in-delay-3   { animation: slide-up 0.8s var(--ease-expo) 0.35s both; }
+  .animate-in-delay-4   { animation: slide-up 0.8s var(--ease-expo) 0.5s  both; }
+ 
+  /* ── Dashboard glass (unchanged) ────────────────────────────────── */
+  .glass-dashboard {
+    background:              rgba(4, 30, 21, 0.70);
+    backdrop-filter:         blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border-bottom:           1px solid rgba(69, 110, 101, 0.3);
+  }
+ 
+  /* ── Scrollbar hidden ────────────────────────────────────────────── */
+  .scrollbar-hidden {
+    -ms-overflow-style: none;
+    scrollbar-width:    none;
+  }
+  .scrollbar-hidden::-webkit-scrollbar { display: none; }
+ 
+  .text-nowrap { white-space: nowrap; }
+ 
+  /* ── Noise overlay for depth on imagery sections ─────────────────── */
+  .noise::after {
+    content:          '';
+    position:         absolute;
+    inset:            0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events:   none;
+    border-radius:    inherit;
+  }
+}
+ 
+/* ══════════════════════════════════════════════════════════════════════
+   KEYFRAMES
+══════════════════════════════════════════════════════════════════════ */
+ 
+/* Site — slide up with blur, Stitch entrance style */
+@keyframes slide-up {
+  0%   { opacity: 0; transform: translateY(28px); filter: blur(4px); }
+  100% { opacity: 1; transform: translateY(0);    filter: blur(0);   }
+}
+ 
+/* AQI widget float */
+@keyframes float {
+  0%, 100% { transform: translateY(0px);  }
+  40%       { transform: translateY(-7px); }
+  70%       { transform: translateY(-4px); }
+}
+ 
+/* Skeleton shimmer */
+@keyframes shimmer-move {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+ 
+/* Stat counter — subtle scale on reveal */
+@keyframes stat-reveal {
+  0%   { opacity: 0; transform: translateY(12px) scale(0.95); }
+  100% { opacity: 1; transform: translateY(0)    scale(1);    }
+}
+ 
+/* Arrow nudge — for link-arrow hover */
+@keyframes arrow-nudge {
+  0%, 100% { transform: translateX(0); }
+  50%       { transform: translateX(4px); }
+}
+ 
+/* Scroll line indicator — travels down */
+@keyframes scroll-line {
+  0%   { top: -40%; opacity: 0; }
+  15%  { opacity: 1; }
+  85%  { opacity: 1; }
+  100% { top: 110%;  opacity: 0; }
+}
+ 
+/* Hero image parallax hint */
+@keyframes hero-breathe {
+  0%, 100% { transform: scale(1);     }
+  50%       { transform: scale(1.025); }
+}
+ 
+/* Dashboard unchanged keyframes */
+@keyframes fade-up {
+  0%   { opacity: 0; transform: translateY(24px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+ 
+@keyframes fade-in-left {
+  0%   { opacity: 0; transform: translateX(-16px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+ 
+@keyframes ping-slow {
+  0%, 100% { transform: scale(1);    opacity: 0.8; }
+  50%       { transform: scale(1.15); opacity: 0.4; }
+}
+ 
+@keyframes breathe {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50%       { opacity: 1;   transform: scale(1.05); }
+}
+ 
+/* Glow pulse for dark CTA card */
+@keyframes glow-primary {
+  0%, 100% {
+    box-shadow: 0 20px 60px rgba(63,105,44,0.18),
+                0 0 0 0   rgba(164,212,138,0);
+  }
+  50% {
+    box-shadow: 0 24px 80px rgba(63,105,44,0.30),
+                0 0 0 6px  rgba(164,212,138,0.06);
+  }
+}
+ 

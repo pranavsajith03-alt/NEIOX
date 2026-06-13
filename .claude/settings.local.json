@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx tsc *)",
+      "Bash(npm run *)",
+      "Bash(ls *.config.* *.mjs *.md)",
+      "Bash(grep -o '^[A-Z_]*=' .env.local)"
+    ]
+  }
+}

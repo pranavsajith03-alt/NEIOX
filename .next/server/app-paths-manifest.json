@@ -1,0 +1,6 @@
+{
+  "/api/aqi/route": "app/api/aqi/route.js",
+  "/login/page": "app/login/page.js",
+  "/page": "app/page.js",
+  "/dashboard/staff/page": "app/dashboard/staff/page.js"
+}
